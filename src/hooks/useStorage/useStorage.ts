@@ -1,10 +1,10 @@
 import { isClient } from '@/utils/helpers';
 import {
-  type Accessor,
-  type Setter,
   createEffect,
   createSignal,
   onCleanup,
+  type Accessor,
+  type Setter,
 } from 'solid-js';
 
 type UseStorageOptions<Value> = {
@@ -14,8 +14,6 @@ type UseStorageOptions<Value> = {
 };
 
 const IS_SERVER = typeof window === 'undefined';
-
-type RetunrTypeOrValue<T> = T extends (...args: any) => infer P ? P : T;
 
 type UseStorageReturn<Value> = [Accessor<Value>, Setter<Value>, () => void];
 
@@ -100,20 +98,14 @@ export function useStorage<Value>(
     }
   };
 
-  const [storedValue, setStoredValue] = createSignal(
-    (() => {
-      if (initialValue) {
-        return readValue();
-      }
-
-      return initialValue instanceof Function ? initialValue() : initialValue;
-    })(),
+  const [storedValue, setStoredValue] = createSignal<Value | undefined>(
+    readValue(),
   );
 
   // Return a wrapped version of useState's setter function that ...
   // ... persists the new value to localStorage.
   const setValue = (
-    value: NonNullable<RetunrTypeOrValue<typeof initialValue>>,
+    value: Value | ((prevValue: Value | undefined) => Value),
   ) => {
     // Prevent build error "window is undefined" but keeps working
     if (IS_SERVER) {
@@ -130,7 +122,7 @@ export function useStorage<Value>(
       window.localStorage.setItem(key, serializer(newValue));
 
       // Save state
-      setStoredValue(newValue);
+      setStoredValue(() => newValue);
 
       // We dispatch a custom event so every similar useLocalStorage hook is notified
       window.dispatchEvent(new StorageEvent('local-storage', { key }));
@@ -154,21 +146,21 @@ export function useStorage<Value>(
     window.localStorage.removeItem(key);
 
     // Save state with default value
-    setStoredValue(defaultValue);
+    setStoredValue(() => defaultValue);
 
     // We dispatch a custom event so every similar useLocalStorage hook is notified
     window.dispatchEvent(new StorageEvent('local-storage', { key }));
   };
 
   createEffect(() => {
-    setStoredValue(readValue());
+    setStoredValue(() => readValue());
   });
 
   const handleStorageChange = (event: StorageEvent | CustomEvent) => {
     if ((event as StorageEvent).key && (event as StorageEvent).key !== key) {
       return;
     }
-    setStoredValue(readValue());
+    setStoredValue(() => readValue());
   };
 
   window.addEventListener('storage', handleStorageChange);

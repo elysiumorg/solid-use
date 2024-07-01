@@ -2,10 +2,7 @@ import { Match, Switch } from 'solid-js';
 import { useStorage } from './useStorage';
 
 const Demo = () => {
-  const [value, setValue, removeValue] = useStorage<number>(
-    'siberiacancode-use-local-storage',
-    { initialValue: 1 },
-  );
+  const [value, setValue, removeValue] = useStorage<number>('');
 
   return (
     <div>
