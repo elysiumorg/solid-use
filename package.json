@@ -1,0 +1,85 @@
+{
+  "name": "@elysiumx/solid-use",
+  "version": "0.0.41",
+  "description": "Ultimate tool",
+  "license": "MIT",
+  "author": {
+    "name": "Edward Klyuchnikov",
+    "url": "https://github.com/jorsary"
+  },
+  "engines": {
+    "node": ">=14"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": [
+    "dist/**/*"
+  ],
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "prepublishOnly": "pnpm type && pnpm unit-test run && pnpm build",
+    "build": "shx rm -rf dist && rollup -c --bundleConfigAsCjs",
+    "lint": "eslint . --ext ts --ext tsx --no-error-on-unmatched-pattern --fix",
+    "format": "prettier --write **/*.{ts,jsm,md}",
+    "type": "tsc --noEmit",
+    "pretty": "pnpm type && pnpm format && pnpm lint",
+    "prepare": "husky install",
+    "test": "vitest",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs"
+  },
+  "lint-staged": {
+    "*.js": "prettier --write",
+    "*.ts": [
+      "prettier --write",
+      "eslint --no-error-on-unmatched-pattern --fix"
+    ]
+  },
+  "peerDependencies": {
+    "solid-js": "^1.8.18"
+  },
+  "dependencies": {
+    "screenfull": "^6.0.2"
+  },
+  "devDependencies": {
+    "@solidjs/testing-library": "^0.8.8",
+    "@testing-library/jest-dom": "^6.4.6",
+    "@types/doctrine": "^0.0.9",
+    "@types/node": "^20.11.19",
+    "@typescript-eslint/eslint-plugin": "^7.14.1",
+    "@typescript-eslint/parser": "^7.14.1",
+    "comment-parser": "^1.4.1",
+    "core-js": "^3.37.1",
+    "doctrine": "^3.0.0",
+    "eslint": "^8.57.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-airbnb-typescript": "^18.0.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-import-resolver-typescript": "^3.6.1",
+    "eslint-plugin-eslint-comments": "^3.2.0",
+    "eslint-plugin-prettier": "^5.1.3",
+    "eslint-plugin-promise": "^6.2.0",
+    "husky": "^9.0.11",
+    "jsdom": "^24.1.0",
+    "lint-staged": "^15.2.2",
+    "markdown-table": "^3.0.3",
+    "shx": "^0.3.4",
+    "solid-js": "^1.8.18",
+    "typescript": "^5.5.2",
+    "vite": "^5.1.3",
+    "vite-plugin-solid": "^2.10.2",
+    "vitepress": "^1.1.4",
+    "vitest": "^1.6.0"
+  },
+  "keywords": [
+    "solid",
+    "solid hooks",
+    "solid use",
+    "use",
+    "hooks"
+  ]
+}
