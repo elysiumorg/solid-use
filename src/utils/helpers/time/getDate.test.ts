@@ -3,7 +3,7 @@ import { getDate } from './getDate';
 vi.useFakeTimers().setSystemTime(new Date('1999-03-12'));
 const LOCAL_HOURS = new Date('1999-03-12').getHours();
 
-it('Should return correct values for each property', () => {
+it('should return correct values for each property', () => {
   const result = getDate();
 
   expect(result.year).toBe(1999);
@@ -19,7 +19,7 @@ it('Should return correct values for each property', () => {
   expect(result.timestamp).toBe(921196800000);
 });
 
-it('Should return values by date param', () => {
+it('should return values by date param', () => {
   const date = new Date();
   const result = getDate(date);
 
@@ -34,7 +34,7 @@ it('Should return values by date param', () => {
   expect(result.timestamp).toBe(date.getTime());
 });
 
-it('Should return correct meridiem hours', () => {
+it('should return correct meridiem hours', () => {
   expect(getDate(new Date('1999-03-12 23:00:00')).meridiemHours.value).toBe(11);
   expect(getDate(new Date('1999-03-12 23:00:00')).meridiemHours.type).toBe(
     'pm',

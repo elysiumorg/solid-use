@@ -6,7 +6,7 @@ describe('useDocumentTitle', () => {
     document.title = 'default title';
   });
 
-  it('Should use document title', () => {
+  it('should use document title', () => {
     const { result } = renderHook(useDocumentTitle);
     const [title, setTitle] = result;
 
@@ -14,20 +14,20 @@ describe('useDocumentTitle', () => {
     expect(typeof setTitle).toBe('function');
   });
 
-  it('Should be set initial title', () => {
+  it('should be set initial title', () => {
     const { result } = renderHook(() => useDocumentTitle('title'));
 
     waitFor(() => expect(result[0]).toBe('title'));
   });
 
-  it('Should be set new title', () => {
+  it('should be set new title', () => {
     const { result } = renderHook(useDocumentTitle);
 
     result[1]('new title');
     waitFor(() => expect(result[0]).toBe('new title'));
   });
 
-  it('Should be restore initial title when unmount', () => {
+  it('should be restore initial title when unmount', () => {
     const { result } = renderHook(() =>
       useDocumentTitle('title', { restoreOnUnmount: true }),
     );

@@ -1,5 +1,4 @@
-import { createEffect } from 'solid-js';
-import { useEvent } from '../useEvent/useEvent';
+import { createEffect, onCleanup } from 'solid-js';
 
 export type UseEventListenerTarget =
   | (() => Element | null)
@@ -27,7 +26,8 @@ const getElement = (target: UseEventListenerTarget) => {
 export type UseEventListenerOptions = boolean | AddEventListenerOptions;
 
 export type UseEventListenerReturn<Target extends UseEventListenerTarget> =
-  Target;
+  | ((ref: Target) => void)
+  | undefined;
 
 export type UseEventListener = {
   <Event extends keyof WindowEventMap = keyof WindowEventMap>(
@@ -75,7 +75,38 @@ export type UseEventListener = {
   ): UseEventListenerReturn<Target>;
 };
 
-export const useEventListener = ((...params: any[]) => {
+/**
+ * @name useEventListener
+ * @description A hook to attach an event listener to a target element, document, or window.
+ * @category Browser
+ *
+ * @template Event Key of the event map.
+ * @template Target Element, Document, Window, or custom target.
+ * @param {Target} [target] The target to attach the event listener to.
+ * @param {Event | Event[]} event The event(s) to listen for.
+ * @param {(event: any) => void} listener The callback function to be executed when the event is triggered.
+ * @param {UseEventListenerOptions} [options] The options for the event listener.
+ * @returns {UseEventListenerReturn<Target>} A callback ref function if no target is specified.
+ *
+ * @example
+ * // Using with window
+ * useEventListener(window, 'resize', () => console.log('window resized'));
+ *
+ * @example
+ * // Using with document
+ * useEventListener(document, 'click', () => console.log('document clicked'));
+ *
+ * @example
+ * // Using with a specific element
+ * useEventListener(document.getElementById('myElement'), 'mouseover', () => console.log('element mouseover'));
+ *
+ * @example
+ * // Using with a ref callback
+ * const ref = useEventListener('scroll', () => console.log('scrolled'));
+ * // In JSX: <div ref={ref}></div>
+ */
+
+export const useEventListener: UseEventListener = (...params: any[]) => {
   const target = (params[1] instanceof Function ? null : params[0]) as
     | UseEventListenerTarget
     | undefined;
@@ -87,24 +118,33 @@ export const useEventListener = ((...params: any[]) => {
     ? params[3]
     : params[2];
 
-  const internalRef: Element | Document | Window | null = null;
-  const internalListener = useEvent(listener);
+  let internalRef: Element | Document | Window | null;
+
+  const refCallback = (ref: Element | Document | Window | null) => {
+    if (!ref) return;
+    internalRef = ref;
+    events.forEach(event => ref?.addEventListener(event, listener, options));
+  };
 
   createEffect(() => {
-    const callback = (event: Event) => internalListener(event);
+    if (!target) return;
+    const element = getElement(target);
+    if (element) {
+      events.forEach(event =>
+        element.addEventListener(event, listener, options),
+      );
+    }
+  });
+
+  onCleanup(() => {
     const element = target ? getElement(target) : internalRef;
     if (element) {
       events.forEach(event =>
-        element.addEventListener(event, callback, options),
+        element.removeEventListener(event, listener, options),
       );
-      return () => {
-        events.forEach(event =>
-          element.removeEventListener(event, callback, options),
-        );
-      };
     }
   });
 
   if (target) return;
-  return internalRef;
-}) as UseEventListener;
+  return refCallback;
+};

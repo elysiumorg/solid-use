@@ -18,9 +18,7 @@ export const useDefault = <Value>(
   defaultValue: Value,
 ): [Accessor<Value>, Setter<Value | null | undefined>] => {
   const [value, setValue] = createSignal<Value | null | undefined>(
-    typeof initialValue === 'function'
-      ? (initialValue as () => Value)()
-      : initialValue,
+    initialValue instanceof Function ? initialValue() : initialValue,
   );
 
   const getValue = (): Value => {

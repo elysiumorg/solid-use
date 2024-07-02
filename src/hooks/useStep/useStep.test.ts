@@ -3,7 +3,7 @@ import { useStep } from './useStep';
 
 const STEPS = ['1', '2', '3'];
 
-it('Should use step', () => {
+it('should use step', () => {
   const { result } = renderHook(() => useStep(STEPS.length));
 
   expect(result.currentStep()).toBe(1);
@@ -15,21 +15,21 @@ it('Should use step', () => {
   expect(typeof result.reset).toBe('function');
 });
 
-it('Should increase the step', () => {
+it('should increase the step', () => {
   const { result } = renderHook(() => useStep(STEPS.length));
 
   result.next();
   expect(result.currentStep()).toBe(2);
 });
 
-it('Should not increase the step when max is reached', () => {
+it('should not increase the step when max is reached', () => {
   const { result } = renderHook(() => useStep(1));
 
   result.next();
   expect(result.currentStep()).toBe(1);
 });
 
-it('Should decrease the step', () => {
+it('should decrease the step', () => {
   const { result } = renderHook(() => useStep(STEPS.length));
 
   result.next();
@@ -39,14 +39,14 @@ it('Should decrease the step', () => {
   expect(result.currentStep()).toBe(1);
 });
 
-it('Should not decrease the step when min is reached', () => {
+it('should not decrease the step when min is reached', () => {
   const { result } = renderHook(() => useStep(STEPS.length));
 
   result.back();
   expect(result.currentStep()).toBe(1);
 });
 
-it('Should reset to the initial step', () => {
+it('should reset to the initial step', () => {
   const { result } = renderHook(() => useStep(STEPS.length));
 
   result.set(3);
@@ -56,7 +56,7 @@ it('Should reset to the initial step', () => {
   expect(result.currentStep()).toBe(1);
 });
 
-it('Should have valid booleans', () => {
+it('should have valid booleans', () => {
   const { result } = renderHook(() => useStep(STEPS.length));
 
   expect(result.isFirst()).toBeTruthy();
@@ -75,7 +75,7 @@ it('Should have valid booleans', () => {
   expect(result.isLast()).toBeFalsy();
 });
 
-it('Should set custom step', () => {
+it('should set custom step', () => {
   const { result } = renderHook(() => useStep(STEPS.length));
 
   result.set(2);
@@ -95,7 +95,7 @@ it('Should set custom step', () => {
 });
 
 describe('Value is object', () => {
-  it('Should increase the step', () => {
+  it('should increase the step', () => {
     const { result } = renderHook(() =>
       useStep({ initial: 1, max: STEPS.length }),
     );
@@ -104,7 +104,7 @@ describe('Value is object', () => {
     expect(result.currentStep()).toBe(2);
   });
 
-  it('Should not increase the step when max is reached', () => {
+  it('should not increase the step when max is reached', () => {
     const INITIAL_STEP = STEPS.length;
     const { result } = renderHook(() =>
       useStep({ initial: INITIAL_STEP, max: STEPS.length }),
@@ -114,7 +114,7 @@ describe('Value is object', () => {
     expect(result.currentStep()).toBe(STEPS.length);
   });
 
-  it('Should decrease the step', () => {
+  it('should decrease the step', () => {
     const { result } = renderHook(() =>
       useStep({ initial: 1, max: STEPS.length }),
     );
@@ -126,7 +126,7 @@ describe('Value is object', () => {
     expect(result.currentStep()).toBe(1);
   });
 
-  it('Should not decrease the step when min is reached', () => {
+  it('should not decrease the step when min is reached', () => {
     const { result } = renderHook(() =>
       useStep({ initial: 1, max: STEPS.length }),
     );
@@ -135,7 +135,7 @@ describe('Value is object', () => {
     expect(result.currentStep()).toBe(1);
   });
 
-  it('Should reset to the initial step', () => {
+  it('should reset to the initial step', () => {
     const { result } = renderHook(() =>
       useStep({ initial: 2, max: STEPS.length }),
     );
@@ -147,7 +147,7 @@ describe('Value is object', () => {
     expect(result.currentStep()).toBe(2);
   });
 
-  it('Should have valid booleans', () => {
+  it('should have valid booleans', () => {
     const { result } = renderHook(() =>
       useStep({ initial: 1, max: STEPS.length }),
     );
@@ -168,7 +168,7 @@ describe('Value is object', () => {
     expect(result.isLast()).toBeFalsy();
   });
 
-  it('Should set custom step', () => {
+  it('should set custom step', () => {
     const { result } = renderHook(() =>
       useStep({ initial: 1, max: STEPS.length }),
     );

@@ -21,8 +21,6 @@ export default {
 
         const jsdoc = parseHookJsdoc(jsdocMatch);
 
-        if (hook === 'useStorage') console.log(content);
-
         if (!jsdoc.description || !jsdoc.usage) {
           console.error(`No content found for ${hook}`);
           return null;
