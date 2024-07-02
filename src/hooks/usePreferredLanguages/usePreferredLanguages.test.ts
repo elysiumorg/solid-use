@@ -1,6 +1,5 @@
 import { renderHook } from '@solidjs/testing-library';
 import { usePreferredLanguages } from './usePreferredLanguages';
-import { isClient } from '@/utils/helpers';
 
 const mockNavigatorLanguages = vi.spyOn(navigator, 'languages', 'get');
 
