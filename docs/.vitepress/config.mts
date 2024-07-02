@@ -29,8 +29,8 @@ export default async () => {
   }));
 
   return defineConfig({
-    base: '/soliduse/',
-    title: 'soliduse',
+    base: '/solid-use/',
+    title: 'solid-use',
     description: '🚀 the largest and most useful hook library',
     vite: {
       plugins: [solidPlugin()],

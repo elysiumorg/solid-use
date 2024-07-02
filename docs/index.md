@@ -3,7 +3,7 @@
 layout: home
 
 hero:
-  name: soliduse 🚀
+  name: solid-use 🚀
   tagline: the largest and most useful hook library
   actions:
     - theme: brand
