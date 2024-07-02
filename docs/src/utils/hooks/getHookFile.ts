@@ -9,7 +9,7 @@ export const getHookFile = async (name: string) => {
 
     return { stats, content };
   } catch (error) {
-    console.error(`Error reading file: ${error}`);
+    console.error(`Error reading file: ${String(error)}`);
     throw error;
   }
 };

@@ -1,7 +1,7 @@
-import { For, createSignal } from 'solid-js';
-import { useEventListener } from './useEventListener';
-import { useQueue } from '../useQueue/useQueue';
+import { For } from 'solid-js';
 import { useCounter } from '../useCounter/useCounter';
+import { useQueue } from '../useQueue/useQueue';
+import { useEventListener } from './useEventListener';
 
 const Demo = () => {
   const { add, remove, queue, size } = useQueue<string>();

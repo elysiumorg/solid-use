@@ -23,6 +23,7 @@
     "no-console": "off",
     "no-alert": "off",
     "promise/always-return": "off",
+    "func-names": "off",
   },
   "overrides": [
     {
