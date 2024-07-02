@@ -1,5 +1,5 @@
 import screenfull from 'screenfull';
-import { createEffect, createSignal, onCleanup, type Accessor } from 'solid-js';
+import { createSignal, onCleanup, type Accessor } from 'solid-js';
 
 /** The use fullscreen target element type */
 export type UseFullScreenTarget = Element | null | (() => Element);

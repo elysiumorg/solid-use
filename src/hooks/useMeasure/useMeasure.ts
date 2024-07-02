@@ -1,10 +1,4 @@
-import {
-  createEffect,
-  createRenderEffect,
-  createSignal,
-  onCleanup,
-  type Accessor,
-} from 'solid-js';
+import { createEffect, createSignal, onCleanup, type Accessor } from 'solid-js';
 
 /** The use measure target element type */
 export type UseMeasureTarget = Element | null | (() => Element);
