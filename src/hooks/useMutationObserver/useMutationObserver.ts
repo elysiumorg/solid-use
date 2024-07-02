@@ -1,4 +1,4 @@
-import { createEffect } from 'solid-js';
+import { createEffect, onCleanup } from 'solid-js';
 
 export function useMutationObserver<Element extends HTMLElement>(
   callback: MutationCallback,
@@ -16,9 +16,9 @@ export function useMutationObserver<Element extends HTMLElement>(
       observer.observe(targetElement || ref!, options);
     }
 
-    return () => {
+    onCleanup(() => {
       observer.disconnect();
-    };
+    });
   }, [callback, options]);
 
   return ref;

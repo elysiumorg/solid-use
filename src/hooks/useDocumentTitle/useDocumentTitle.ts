@@ -1,4 +1,4 @@
-import { createEffect, createSignal, type Accessor } from 'solid-js';
+import { createEffect, createSignal, onCleanup, type Accessor } from 'solid-js';
 import { useMutationObserver } from '../useMutationObserver/useMutationObserver';
 
 /** The use document title options type */
@@ -47,9 +47,9 @@ export function useDocumentTitle(
 
   createEffect(() => {
     if (options?.restoreOnUnmount) {
-      return () => {
+      onCleanup(() => {
         document.title = prevTitleRef;
-      };
+      });
     }
   }, []);
 

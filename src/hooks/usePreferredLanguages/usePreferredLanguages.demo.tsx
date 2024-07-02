@@ -1,0 +1,20 @@
+import { usePreferredLanguages } from './usePreferredLanguages';
+
+const Demo = () => {
+  const languages = usePreferredLanguages();
+
+  return (
+    <ul>
+      {languages().map(language => (
+        <li>
+          <code>{language}</code> locale date -{' '}
+          <code>
+            <time>{new Date(Date.now()).toLocaleDateString(language)}</time>
+          </code>
+        </li>
+      ))}
+    </ul>
+  );
+};
+
+export default Demo;
