@@ -1,17 +1,19 @@
 import { Match, Switch } from 'solid-js';
-import { useStorage } from './useStorage';
+import { useSessionStorage } from './useSessionStorage';
 
 const Demo = () => {
-  const [value, setValue, removeValue] = useStorage<number>('');
+  const [value, setValue, removeValue] = useSessionStorage<number>(
+    'session-key',
+    {
+      initialValue: 0,
+    },
+  );
 
   return (
     <div>
       <p>
         Count: <code>{value() ?? 'undefined'}</code>
       </p>
-      <button type="button" onClick={() => setValue(prev => prev + 1)}>
-        Increment
-      </button>
       <Switch>
         <Match when={value() !== undefined}>
           <button type="button" onClick={() => setValue(prev => prev + 1)}>

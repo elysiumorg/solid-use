@@ -14,7 +14,7 @@ import Demo from '../../src/components/demo.vue'
 {{ $params.description }}
 
 ```typescript-vue
-import { {{ $params.name }} } from '@elysiumx/soliduse';
+import { {{ $params.name }} } from '@elysiumorg/solid-use';
 ```
 
 ## Usage

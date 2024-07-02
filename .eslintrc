@@ -20,7 +20,7 @@
     "consistent-return": "off",
     "no-shadow": "off",
     "no-param-reassign": "warn",
-    "no-console": ["warn", { "allow": ["info", "error"] }],
+    "no-console": ["warn", { "allow": ["info", "error", "warn"] }],
   },
   "overrides": [
     {
@@ -76,4 +76,3 @@
     },
   ],
 }
-

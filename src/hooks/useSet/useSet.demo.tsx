@@ -3,7 +3,7 @@ import { useSet } from './useSet';
 
 const Demo = () => {
   const [input, setInput] = createSignal('');
-  const set = useSet(['@siberiacancode', '@siberiacancode-tests', '@shared']);
+  const set = useSet(['@solid-js', '@solid-use', '@hooks']);
 
   return (
     <>

@@ -7,41 +7,34 @@ import {
   type Setter,
 } from 'solid-js';
 
-type UseStorageOptions<Value> = {
+export type UseStorageOptions<Value> = {
   serializer?: (value: Value) => string;
   deserializer?: (value: string) => Value;
   initialValue?: Value | (() => Value);
 };
 
-const IS_SERVER = typeof window === 'undefined';
+export type UseStorageReturn<Value> = [
+  Accessor<Value>,
+  Setter<Value>,
+  () => void,
+];
 
-type UseStorageReturn<Value> = [Accessor<Value>, Setter<Value>, () => void];
-
-/**
- * @name useStorage
- * @description - Hook that returns the previous value of a given state.
- * @category Utilities
- *
- * @template Value The type of the value
- * @param {Accessor<Value>} value The accessor function for the current value
- * @returns {Accessor<Value | undefined>} The accessor function for the previous value
- *
- * @example
- * const [value, setValue] = createSignal(0);
- * const prevValue = usePrevious(value);
- */
 export function useStorage<Value>(
+  storage: Storage,
   key: string,
 ): UseStorageReturn<Value | undefined>;
 export function useStorage<Value>(
+  storage: Storage,
   key: string,
   options: UseStorageOptions<Value> & { initialValue: Value | (() => Value) },
 ): UseStorageReturn<Value>;
 export function useStorage<Value>(
+  storage: Storage,
   key: string,
   options?: UseStorageOptions<Value>,
 ): UseStorageReturn<Value | undefined>;
 export function useStorage<Value>(
+  storage: Storage,
   key: string,
   options: UseStorageOptions<Value> = {},
 ) {
@@ -59,7 +52,7 @@ export function useStorage<Value>(
     if (options.deserializer) {
       return options.deserializer(value);
     }
-    // Support 'undefined' as a value
+
     if (value === 'undefined') {
       return undefined as unknown as Value;
     }
@@ -72,25 +65,22 @@ export function useStorage<Value>(
       parsed = JSON.parse(value);
     } catch (error) {
       console.error('Error parsing JSON:', error);
-      return defaultValue; // Return initialValue if parsing fails
+      return defaultValue;
     }
 
     return parsed as Value;
   };
 
-  // Get from local storage then
-  // parse stored json or return initialValue
   const readValue = () => {
     const initialValueToUse =
       initialValue instanceof Function ? initialValue() : initialValue;
 
-    // Prevent build error "window is undefined" but keep working
     if (!isClient) {
       return initialValueToUse;
     }
 
     try {
-      const raw = window.localStorage.getItem(key);
+      const raw = storage.getItem(key);
       return raw ? deserializer(raw) : initialValueToUse;
     } catch (error) {
       console.warn(`Error reading localStorage key “${key}”:`, error);
@@ -102,29 +92,22 @@ export function useStorage<Value>(
     readValue(),
   );
 
-  // Return a wrapped version of useState's setter function that ...
-  // ... persists the new value to localStorage.
   const setValue = (
     value: Value | ((prevValue: Value | undefined) => Value),
   ) => {
-    // Prevent build error "window is undefined" but keeps working
-    if (IS_SERVER) {
+    if (!isClient) {
       console.warn(
         `Tried setting localStorage key “${key}” even though environment is not a client`,
       );
     }
 
     try {
-      // Allow value to be a function so we have the same API as useState
       const newValue = value instanceof Function ? value(readValue()) : value;
 
-      // Save to local storage
-      window.localStorage.setItem(key, serializer(newValue));
+      storage.setItem(key, serializer(newValue));
 
-      // Save state
       setStoredValue(() => newValue);
 
-      // We dispatch a custom event so every similar useLocalStorage hook is notified
       window.dispatchEvent(new StorageEvent('local-storage', { key }));
     } catch (error) {
       console.warn(`Error setting localStorage key “${key}”:`, error);
@@ -132,8 +115,7 @@ export function useStorage<Value>(
   };
 
   const removeValue = () => {
-    // Prevent build error "window is undefined" but keeps working
-    if (IS_SERVER) {
+    if (!isClient) {
       console.warn(
         `Tried removing localStorage key “${key}” even though environment is not a client`,
       );
@@ -142,13 +124,10 @@ export function useStorage<Value>(
     const defaultValue =
       initialValue instanceof Function ? initialValue() : initialValue;
 
-    // Remove the key from local storage
-    window.localStorage.removeItem(key);
+    storage.removeItem(key);
 
-    // Save state with default value
     setStoredValue(() => defaultValue);
 
-    // We dispatch a custom event so every similar useLocalStorage hook is notified
     window.dispatchEvent(new StorageEvent('local-storage', { key }));
   };
 

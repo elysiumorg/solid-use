@@ -9,7 +9,7 @@ const props = defineProps({
 });
 
 const sourceLink = computed(() => {
-  return `https://github.com/elysiumx/soliduse/blob/main/src/hooks/${props.hook}/${props.hook}.demo.tsx`;
+  return `https://github.com/elysiumorg/solid-use/blob/main/src/hooks/${props.hook}/${props.hook}.demo.tsx`;
 });
 
 const demoRef = ref();

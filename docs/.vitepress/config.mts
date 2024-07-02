@@ -70,9 +70,9 @@ export default async () => {
           editLink: {
             pattern: ({ filePath, params }) => {
               if (filePath.includes('hooks') && params?.name) {
-                return `https://github.com/elysiumx/soliduse/blob/main/src/hooks/${params.name}/${params.name}.ts`;
+                return `https://github.com/elysiumorg/solid-use/blob/main/src/hooks/${params.name}/${params.name}.ts`;
               } else {
-                return `https://github.com/elysiumx/soliduse/blob/main/docs/${filePath}`;
+                return `https://github.com/elysiumorg/solid-use/blob/main/docs/${filePath}`;
               }
             },
             text: 'Suggest changes to this page',
@@ -112,10 +112,10 @@ export default async () => {
     },
     themeConfig: {
       socialLinks: [
-        { icon: 'github', link: 'https://github.com/elysiumx/soliduse' },
+        { icon: 'github', link: 'https://github.com/elysiumorg/solid-use' },
         {
           icon: 'npm',
-          link: 'https://www.npmjs.com/package/@elysiumx/soliduse',
+          link: 'https://www.npmjs.com/package/@elysiumorg/solid-use',
         },
       ],
     },

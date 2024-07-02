@@ -11,5 +11,5 @@ hero:
       link: /getting-started
     - theme: alt
       text: View on GitHub
-      link: https://github.com/elysiumx/soliduse
+      link: https://github.com/elysiumorg/solid-use
 ---

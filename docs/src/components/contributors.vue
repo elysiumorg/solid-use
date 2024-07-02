@@ -1,16 +1,17 @@
 <script setup>
 const props = defineProps({
   hook: {
-    type: String
-  }
+    type: String,
+  },
 });
 
-const repositoryLink = `https://github.com/elysiumx/soliduse/tree/main/src/hooks/${props.hook}`;
+const repositoryLink = `https://github.com/elysiumorg/solid-use/tree/main/src/hooks/${props.hook}`;
 
 const sourceLink = `${repositoryLink}/${props.hook}.ts`;
 const demoLink = `${repositoryLink}/${props.hook}.demo.tsx`;
 </script>
 
 <template>
-  <a target="_blank" :href="sourceLink">Source</a> • <a target="_blank" :href="demoLink">Demo</a>
+  <a target="_blank" :href="sourceLink">Source</a> •
+  <a target="_blank" :href="demoLink">Demo</a>
 </template>

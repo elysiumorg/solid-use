@@ -5,7 +5,7 @@ const props = defineProps({
   }
 });
 
-const repositoryLink = `https://github.com/elysiumx/soliduse/tree/main/src/hooks/${props.hook}`;
+const repositoryLink = `https://github.com/elysiumorg/solid-use/tree/main/src/hooks/${props.hook}`;
 
 const sourceLink = `${repositoryLink}/${props.hook}.ts`;
 const demoLink = `${repositoryLink}/${props.hook}.demo.tsx`;

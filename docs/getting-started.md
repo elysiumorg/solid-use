@@ -11,7 +11,7 @@ outline: deep
 Install **🚀 React Use** with [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
 
 ```bash
-$ npm i @elysiumx/soliduse --save
+$ npm i @elysiumorg/solid-use --save
 # or
-$ yarn add @elysiumx/soliduse
+$ yarn add @elysiumorg/solid-use
 ```
