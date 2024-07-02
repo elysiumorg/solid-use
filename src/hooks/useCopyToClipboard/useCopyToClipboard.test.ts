@@ -14,14 +14,14 @@ Object.assign(document, {
   execCommand: mockDocumentExecCommand,
 });
 
-it('Should use copy to clipboard', () => {
+it('should use copy to clipboard', () => {
   const { result } = renderHook(useCopyToClipboard);
 
   expect(result.value()).toBeNull();
   expect(typeof result.copy).toBe('function');
 });
 
-it('Should copy value to clipboard', async () => {
+it('should copy value to clipboard', async () => {
   const { result } = renderHook(useCopyToClipboard);
 
   await result.copy('string');
@@ -31,7 +31,7 @@ it('Should copy value to clipboard', async () => {
   expect(mockNavigatorClipboardWriteText).toHaveBeenCalledWith('string');
 });
 
-it('Should copy value to clipboard if writeText not supported', async () => {
+it('should copy value to clipboard if writeText not supported', async () => {
   mockNavigatorClipboardWriteText.mockRejectedValueOnce(
     new Error('writeText not supported'),
   );

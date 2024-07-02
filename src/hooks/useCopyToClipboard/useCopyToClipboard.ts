@@ -1,21 +1,14 @@
-import { type Accessor, createSignal } from 'solid-js';
-
-export const legacyCopyToClipboard = (value: string) => {
-  const tempTextArea = document.createElement('textarea');
-  tempTextArea.value = value;
-  document.body.appendChild(tempTextArea);
-  tempTextArea.select();
-  document.execCommand('copy');
-  document.body.removeChild(tempTextArea);
-};
+import { createSignal, type Accessor } from 'solid-js';
 
 /** The use copy to clipboard return type */
 interface UseCopyToClipboardReturn {
   /** The copied value */
   value: Accessor<string | null>;
   /** Function to copy to clipboard  */
-  copy: (value: string) => Promise<void>;
+  copy: CopyFn;
 }
+
+type CopyFn = (text: string) => Promise<boolean>;
 
 /**
  * @name useCopyToClipboard
@@ -30,19 +23,22 @@ interface UseCopyToClipboardReturn {
 export const useCopyToClipboard = (): UseCopyToClipboardReturn => {
   const [value, setValue] = createSignal<string | null>(null);
 
-  const copyToClipboard = async (value: string) => {
+  const copy: CopyFn = async text => {
+    if (!navigator?.clipboard) {
+      console.warn('Clipboard not supported');
+      return false;
+    }
+
     try {
-      if (navigator?.clipboard?.writeText) {
-        await navigator.clipboard.writeText(value);
-        setValue(value);
-      } else {
-        throw new Error('writeText not supported');
-      }
+      await navigator.clipboard.writeText(text);
+      setValue(text);
+      return true;
     } catch (error) {
-      legacyCopyToClipboard(value);
-      setValue(value);
+      console.warn('Copy failed', error);
+      setValue(null);
+      return false;
     }
   };
 
-  return { value, copy: copyToClipboard };
+  return { value, copy };
 };

@@ -1,17 +1,5 @@
 import { type Accessor, createSignal } from 'solid-js';
 
-declare global {
-  interface Set<T> {
-    union(other: Set<T>): Set<T>;
-    difference(other: Set<T>): Set<T>;
-    symmetricDifference(other: Set<T>): Set<T>;
-    intersection(other: Set<T>): Set<T>;
-    isDisjointFrom(other: Set<T>): boolean;
-    isSubsetOf(other: Set<T>): boolean;
-    isSupersetOf(other: Set<T>): boolean;
-  }
-}
-
 /** The use set return type */
 interface UseSetReturn<Value> {
   /** The current set */
