@@ -4,7 +4,7 @@ import { useImage } from './useImage';
 
 const Demo = () => {
   const [color, toggle] = useToggle(['ffffff', '000000', '5f0caa']);
-  const image = useImage(`https://place-hold.it/300x200/${color}`);
+  const image = useImage(`https://place-hold.it/300x200/${color()}`);
 
   return (
     <p>
