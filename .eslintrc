@@ -24,6 +24,8 @@
     "no-alert": "off",
     "promise/always-return": "off",
     "func-names": "off",
+    "no-restricted-syntax": "off",
+    "no-nested-ternary": "off",
   },
   "overrides": [
     {
