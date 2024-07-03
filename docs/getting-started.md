@@ -8,7 +8,7 @@ Solid Use is a library designed to help you easily and effectively utilize hooks
 
 ## Usage
 
-Install **🚀 React Use** with [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/)
+Install **🚀 Solid Use** with [npm](https://www.npmjs.com/) or [yarn](https://yarnpkg.com/) or [pnpm](https://pnpm.io/)
 
 ```bash
 $ npm i @elysiumorg/solid-use --save
