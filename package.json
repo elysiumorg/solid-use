@@ -1,6 +1,6 @@
 {
   "name": "@elysiumorg/solid-use",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "description": "Hooks library for Solid JS",
   "license": "MIT",
   "author": {
@@ -13,6 +13,12 @@
       "url": "https://github.com/qann1st"
     }
   ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/elysiumorg/solid-use.git"
+  },
+  "homepage": "https://github.com/elysiumorg/solid-use",
+  "bugs": "https://github.com/elysiumorg/solid-use/issues",
   "engines": {
     "node": ">=14"
   },
@@ -52,6 +58,9 @@
     "screenfull": "^6.0.2"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.24.7",
+    "@babel/preset-typescript": "^7.24.7",
+    "@rollup/plugin-babel": "^6.0.4",
     "@rollup/plugin-commonjs": "^26.0.1",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-replace": "^5.0.7",
