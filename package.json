@@ -1,16 +1,20 @@
 {
   "name": "@elysiumorg/solid-use",
-  "version": "0.1.2",
+  "version": "0.1.21",
   "description": "Hooks library for Solid JS",
   "license": "MIT",
   "author": {
-    "name": "Edward Klyuchnikov",
-    "url": "https://github.com/jorsary"
+    "name": "elysiumorg",
+    "url": "https://github.com/elysiumorg/"
   },
   "contributors": [
     {
       "name": "Vladislav Klyuchnikov",
       "url": "https://github.com/qann1st"
+    },
+    {
+      "name": "Edward Klyuchnikov",
+      "url": "https://github.com/jorsary"
     }
   ],
   "repository": {
