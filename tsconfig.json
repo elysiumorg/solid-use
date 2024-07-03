@@ -9,7 +9,7 @@
     "strict": true,
     "forceConsistentCasingInFileNames": true,
     "module": "esnext",
-    "newLine": "lf",
+    "newLine": "crlf",
     "moduleResolution": "bundler",
     "isolatedModules": true,
     "resolveJsonModule": true,
@@ -21,11 +21,12 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
     "types": ["vitest/globals"],
+    "outDir": "./dist",
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"],
       "@/tests": ["./tests"]
     }
   },
-  "exclude": ["dist", "node_modules", "jest.config.js"]
+  "exclude": ["dist", "node_modules"]
 }

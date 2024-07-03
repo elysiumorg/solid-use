@@ -3,8 +3,8 @@
 layout: home
 
 hero:
-  name: solid-use 🚀
-  tagline: the largest and most useful hook library
+  name: solid-use
+  tagline: Hooks library for Solid JS
   actions:
     - theme: brand
       text: Get Started
