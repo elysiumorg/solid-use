@@ -5,7 +5,7 @@ const Demo = () => {
 
   return (
     <div>
-      <pre>{JSON.stringify(geolocation(), null, 2)}</pre>
+      <pre lang="json">{JSON.stringify(geolocation(), null, 2)}</pre>
     </div>
   );
 };
