@@ -1,0 +1,16 @@
+src/
+node_modules/
+docs/
+.husky/
+.github/
+.vscode/
+.editorconfig
+.eslintrc
+.gitignore
+.prettierignore
+.prettierrc
+index.ts
+pnpm-lock.yaml
+rollup.config.ts
+tsconfig.json
+vite.config.ts
