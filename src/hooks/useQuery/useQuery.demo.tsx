@@ -31,7 +31,7 @@ const Demo = () => {
         Next
       </button>
 
-      {count() === 11111 ? (
+      {error() ? (
         <button type="button" onClick={() => reset()}>
           Repair
         </button>

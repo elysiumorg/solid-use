@@ -78,8 +78,8 @@ export const useQuery = <QueryData, Data = QueryData>(
   const request = (action: 'init' | 'refetch') => {
     // eslint-disable-next-line @typescript-eslint/no-unused-expressions
     refetchInterval && clearInterval(refetchInterval);
-    setIsLoading(true);
     if (action === 'refetch') setIsRefetching(true);
+    else setIsLoading(true);
 
     // eslint-disable-next-line promise/catch-or-return
     callback()
