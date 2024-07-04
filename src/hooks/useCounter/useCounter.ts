@@ -51,7 +51,7 @@ export const useCounter: UseCounter = (
   const [count, setCount] = createSignal(initialValue);
   const max = options.max ?? Number.POSITIVE_INFINITY;
   const min = options.min ?? Number.NEGATIVE_INFINITY;
-  let interval: NodeJS.Timeout | null = null;
+  let interval: NodeJS.Timeout;
 
   const setCountWithinBounds = (value: number) => {
     setCount(Math.max(min, Math.min(max, value)));
@@ -59,7 +59,6 @@ export const useCounter: UseCounter = (
 
   const setCountDelayed = (target: number) => {
     const direction = target > count() ? 1 : -1;
-    if (interval) clearInterval(interval);
 
     interval = setInterval(() => {
       setCount(prevCount => {
@@ -68,7 +67,7 @@ export const useCounter: UseCounter = (
           (direction === 1 && nextCount >= target) ||
           (direction === -1 && nextCount <= target)
         ) {
-          clearInterval(interval!);
+          clearInterval(interval);
           return target;
         }
         return nextCount;
@@ -77,20 +76,24 @@ export const useCounter: UseCounter = (
   };
 
   const inc = (value: number = 1) => {
-    const target = count() + value;
+    clearInterval(interval);
+    const currentTarget = count();
+    const newTarget = currentTarget + value;
     if (options.delay) {
-      setCountDelayed(Math.min(max, target));
+      setCountDelayed(Math.min(max, newTarget));
     } else {
-      setCountWithinBounds(target);
+      setCountWithinBounds(newTarget);
     }
   };
 
   const dec = (value: number = 1) => {
-    const target = count() - value;
+    clearInterval(interval);
+    const currentTarget = count();
+    const newTarget = currentTarget - value;
     if (options.delay) {
-      setCountDelayed(Math.max(min, target));
+      setCountDelayed(Math.max(min, newTarget));
     } else {
-      setCountWithinBounds(target);
+      setCountWithinBounds(newTarget);
     }
   };
 
@@ -99,7 +102,7 @@ export const useCounter: UseCounter = (
   };
 
   const set = (value: number | ((prevCount: number) => number)) => {
-    clearInterval(interval!);
+    clearInterval(interval);
     if (typeof value === 'number') {
       setCountWithinBounds(value);
     } else {
@@ -110,7 +113,7 @@ export const useCounter: UseCounter = (
   };
 
   onCleanup(() => {
-    clearInterval(interval!);
+    clearInterval(interval);
   });
 
   return { count, set, inc, dec, reset } as const;
