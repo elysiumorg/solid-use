@@ -1,4 +1,4 @@
-import { createSignal, type Setter } from 'solid-js';
+import { createSignal, onCleanup, type Accessor, type Setter } from 'solid-js';
 
 /** The use counter options */
 export interface UseCounterOptions {
@@ -12,7 +12,7 @@ export interface UseCounterOptions {
 /** The use counter return type */
 export interface UseCounterReturn {
   /** The current count value */
-  count: number;
+  count: Accessor<number>;
   /** Function to set a specific value to the counter */
   set: Setter<number>;
   /** Function to reset the counter to its initial value. */
@@ -44,66 +44,74 @@ export type UseCounter = {
  * @example
  * const { count, dec, inc, reset, set } = useCounter(5, { min: 0, max: 10 });
  */
-export const useCounter = (
+export const useCounter: UseCounter = (
   initialValue: number = 0,
   options: UseCounterOptions = {},
 ) => {
-  const [count, setCount] = createSignal(initialValue ?? 0);
+  const [count, setCount] = createSignal(initialValue);
   const max = options.max ?? Number.POSITIVE_INFINITY;
   const min = options.min ?? Number.NEGATIVE_INFINITY;
-  let interval: NodeJS.Timeout;
+  let interval: NodeJS.Timeout | null = null;
 
-  const setCountDelayed = (value: number) => {
-    const remaining = value + count();
+  const setCountWithinBounds = (value: number) => {
+    setCount(Math.max(min, Math.min(max, value)));
+  };
 
+  const setCountDelayed = (target: number) => {
+    const direction = target > count() ? 1 : -1;
     if (interval) clearInterval(interval);
 
     interval = setInterval(() => {
-      setCount(prevCount => prevCount + (value < 0 ? -1 : 1));
-
-      if (count() === remaining) clearInterval(interval);
+      setCount(prevCount => {
+        const nextCount = prevCount + direction;
+        if (
+          (direction === 1 && nextCount >= target) ||
+          (direction === -1 && nextCount <= target)
+        ) {
+          clearInterval(interval!);
+          return target;
+        }
+        return nextCount;
+      });
     }, options.delay);
   };
+
   const inc = (value: number = 1) => {
-    const result = Math.max(Math.min(max, count() + value), min);
-
+    const target = count() + value;
     if (options.delay) {
-      return setCountDelayed(result);
+      setCountDelayed(Math.min(max, target));
+    } else {
+      setCountWithinBounds(target);
     }
-
-    setCount(result);
   };
 
   const dec = (value: number = 1) => {
-    const result = Math.min(Math.max(min, count() - value), max);
-
+    const target = count() - value;
     if (options.delay) {
-      return setCountDelayed(-value);
+      setCountDelayed(Math.max(min, target));
+    } else {
+      setCountWithinBounds(target);
     }
-
-    setCount(prevCount => {
-      if (typeof min === 'number' && prevCount === min) return prevCount;
-      return result;
-    });
   };
 
   const reset = () => {
-    const value = initialValue ?? 0;
-    if (typeof max === 'number' && value > max) return setCount(max);
-    if (typeof min === 'number' && value < min) return setCount(min);
-    setCount(value);
+    setCountWithinBounds(initialValue);
   };
 
   const set = (value: number | ((prevCount: number) => number)) => {
-    clearInterval(interval);
-
-    setCount(prevCount =>
-      Math.max(
-        min,
-        Math.min(max, typeof value === 'number' ? value : value(prevCount)),
-      ),
-    );
+    clearInterval(interval!);
+    if (typeof value === 'number') {
+      setCountWithinBounds(value);
+    } else {
+      setCount(prevCount => {
+        return Math.max(min, Math.min(max, value(prevCount)));
+      });
+    }
   };
+
+  onCleanup(() => {
+    clearInterval(interval!);
+  });
 
   return { count, set, inc, dec, reset } as const;
 };
